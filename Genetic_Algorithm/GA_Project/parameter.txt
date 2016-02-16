@@ -1,0 +1,14 @@
+Crossover Probability
+50
+
+Mutation Probability
+3
+
+Population Size
+100
+
+Max Generation
+4
+
+Fitness Threshold
+80
