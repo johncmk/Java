@@ -24,7 +24,10 @@ public class BST {
 	}
 	
 	/**
-	 * print preorder traverse
+	 * print preorder traverse; 
+	 * 1) Each time node of traversal is point to null
+	 * 		level will reset to 0
+	 * 2) tab reset such as set to empty then add '\t' as much as the level counts							
 	 * @param t
 	 */
 	public void print_t(Node root) {
@@ -33,7 +36,7 @@ public class BST {
 	
 	private void _print_t(Node root, StringBuilder tab, int level) {
 		if(root == null) {
-			level = 0; //reset the level
+			level = 0;
 			return;
 		}
 		
@@ -41,7 +44,6 @@ public class BST {
 		int rt = root.getData();
 		Node r = root.getRight();
 		
-		//increase the number of tab depends on level
 		tab.delete(0, tab.length());
 		for(int i = 0 ; i < level; i++) {
 			tab.append('\t');
@@ -55,7 +57,7 @@ public class BST {
 	/**
 	 * return sorted order of BST
 	 * @param root
-	 * @return
+	 * @return return sorted array list from BST
 	 */
 	public ArrayList<Integer> _sorted(Node root) {
 		return _sorted(root, new ArrayList<Integer>());
@@ -72,14 +74,13 @@ public class BST {
 		li.add(rt);
 		_sorted(r,li);
 		return li;
-		
 	}
 
 	/**
 	 * return found node else return its parent
 	 * @param root
 	 * @param x
-	 * @return
+	 * @return root or parent
 	 */
 	public Node _search(Node root,int x) {
 		return _search(root,x, null);
@@ -107,7 +108,7 @@ public class BST {
 	 * return true if node is found else false
 	 * @param root
 	 * @param x
-	 * @return
+	 * @return true or false
 	 */
 	public boolean search(Node root,int x) {
 		Node sub_t = _search(root,x);
@@ -118,7 +119,9 @@ public class BST {
 	}
 	
 	/**
-	 * insert node into BST; duplicate value is not allowed
+	 * insert node into BST; 1) duplicate value is not allowed
+	 * 						 2) if x is not found it will return parent node 
+	 * 							of place where x should be inserted to
 	 * @param root
 	 * @param x
 	 */
@@ -128,27 +131,31 @@ public class BST {
 		if(sub_t.getData() == x) {
 			throw new Error("### "+x+" already exists ###");
 		}
-		//if sub_t is not x then it's parent of the inserted spot
 		if(sub_t.getData() < x) {
 			sub_t.setRight(new Node(x));
 		} else {
 			sub_t.setLeft(new Node(x));
 		}
-		
 	}
 	
 	/**
 	 * return subtree of the root and its parent
 	 * @param root
 	 * @param x
-	 * @return
+	 * @return parent,root
 	 */
 	private Node[] _search_parent(Node root, int x) {
 		Node li[] = new Node[2];
 		return _search_parent(root,x,null,li);
 	}
 	
-	
+	/*
+	 * Alternative ways of returning list; use 1) for readability else use 2) for saving space
+	 * 1) set_nodes(li,null,root);
+		  return li;
+		  
+	   2) return set_nodes(li,null,root);
+	 */
 	private Node[] _search_parent(Node root, int x, Node parent, Node[] li) {
 		if(root == null) {
 			set_nodes(li,null,root);
@@ -159,13 +166,12 @@ public class BST {
 		int rt = root.getData();
 		Node r = root.getRight();
 		
-		if(rt == x && parent != null) {
+		if(rt == x && parent == null) {
+			System.out.println(x + " is the root of the BST");
 			set_nodes(li,parent,root);
 			return li;
 		}
-		
-		if(rt == x && parent == null) {
-			System.out.println(x + " is the root of the BST");
+		if(rt == x) {
 			set_nodes(li,parent,root);
 			return li;
 		}
@@ -178,44 +184,44 @@ public class BST {
 		return _search_parent(l,x,parent,li);
 	}
 	
-	private void set_nodes(Node[] li, Node parent, Node root) {
+	private Node[] set_nodes(Node[] li, Node parent, Node root) {
 		li[0] = parent;
 		li[1] = root;
+		return li;
 	}
 	
 	/**
 	 * Delete Node in BST
+	 * 4 cases; 1) Both left and right child exist
+	 * 			2) ONLY right child exist
+	 * 			3) ONLY left child exist
+	 * 			4) Both left and right child not exist
 	 * @param root
 	 * @param x
 	 */
-	public void delete(Node root, int x) {
-		
+	public void delete(Node root, int x) {	
 		Node[] li = _search_parent(root,x);
 		Node parent = li[0];
 		Node t = li[1];
 		
 		if(t == null && parent == null) {
-			System.out.println(x + " not exists in BST");
-			return;
+			throw new Error(x + " not exists in BST");
 		}
 		
 		Node l = t.getLeft();
 		int rt = t.getData();
 		Node r = t.getRight();
 		
-		if(l == null && r == null) {
-			_delete(parent,null,rt);
-		}
-		else if(l != null && r == null) {
-			_delete(parent,l,rt);
-		}
-		else if(l == null && r != null) {
-			_delete(parent,r,rt);
-		}
-		else {
+		if(l != null && r != null) {
 			int key = _sorted(r).get(0);
 			delete(root,key);
 			t.setData(key);
+		} else if(r != null) {
+			_delete(parent,r,rt);
+		} else if(l != null){
+			_delete(parent,l,rt);
+		} else {
+			_delete(parent,null,rt);
 		}
 	}
 	
