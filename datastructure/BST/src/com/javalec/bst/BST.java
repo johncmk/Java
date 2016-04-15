@@ -44,14 +44,9 @@ public class BST {
 		int rt = root.getData();
 		Node r = root.getRight();
 		
-		tab.delete(0, tab.length());
-		for(int i = 0 ; i < level; i++) {
-			tab.append('\t');
-		}
-		
-		System.out.println(tab + "" + rt);
-		_print_t(l,tab,level+1);
-		_print_t(r,tab,level+1);
+		System.out.println(tab.substring(0, level) + "" + rt);
+		_print_t(l,tab.append('\t'),level+1);
+		_print_t(r,tab.append('\t'),level+1);
 	}
 	
 	/**
