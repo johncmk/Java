@@ -11,6 +11,8 @@
 
 >>Stack Array
 
+>>Binary Search Tree
+
 >##Degisn Pattern
 >>Abstract Factory Pattern
 
