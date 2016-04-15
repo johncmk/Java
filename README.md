@@ -1,7 +1,10 @@
 >##Algorithm
 >>Fibonacci Memoized
+
 >>Fibonacci Recursion
+
 >>MergeSort
+
 >>QuickSort
 
 >##datastructure
