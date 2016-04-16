@@ -30,8 +30,8 @@ public class BST {
 	 * 2) tab reset such as set to empty then add '\t' as much as the level counts							
 	 * @param t
 	 */
-	public void print_t(Node root) {
-		_print_t(root, new StringBuilder(),0);
+	public void print_t() {
+		_print_t(this.root, new StringBuilder(),0);
 	}
 	
 	private void _print_t(Node root, StringBuilder tab, int level) {
@@ -54,7 +54,11 @@ public class BST {
 	 * @param root
 	 * @return return sorted array list from BST
 	 */
-	public ArrayList<Integer> _sorted(Node root) {
+	public ArrayList<Integer> _sorted() {
+		return _sorted(this.root, new ArrayList<Integer>());
+	}
+	
+	private ArrayList<Integer> _sorted(Node root) {
 		return _sorted(root, new ArrayList<Integer>());
 	}
 	
@@ -77,7 +81,7 @@ public class BST {
 	 * @param x
 	 * @return root or parent
 	 */
-	public Node _search(Node root,int x) {
+	private Node _search(Node root,int x) {
 		return _search(root,x, null);
 	}
 	
@@ -105,13 +109,13 @@ public class BST {
 	 * @param x
 	 * @return true or false
 	 */
-	public boolean search(Node root,int x) {
-		Node sub_t = _search(root,x);
+	public boolean search(int x) {
+		Node sub_t = _search(this.root,x);
 		if(sub_t.getData() != x) {
 			return false;
 		}
 		return true;
-	}
+	}	
 	
 	/**
 	 * insert node into BST; 1) duplicate value is not allowed
@@ -120,8 +124,8 @@ public class BST {
 	 * @param root
 	 * @param x
 	 */
-	public void insert(Node root, int x) {
-		Node sub_t = _search(root,x);
+	public void insert(int x) {
+		Node sub_t = _search(this.root,x);
 		
 		if(sub_t.getData() == x) {
 			throw new Error("### "+x+" already exists ###");
@@ -139,11 +143,6 @@ public class BST {
 	 * @param x
 	 * @return parent,root
 	 */
-	private Node[] _search_parent(Node root, int x) {
-		Node li[] = new Node[2];
-		return _search_parent(root,x,null,li);
-	}
-	
 	/*
 	 * Alternative ways of returning list; use 1) for readability else use 2) for saving space
 	 * 1) set_nodes(li,null,root);
@@ -194,8 +193,12 @@ public class BST {
 	 * @param root
 	 * @param x
 	 */
+	public void delete(int x) {
+		delete(this.root,x);
+	}
+	
 	public void delete(Node root, int x) {	
-		Node[] li = _search_parent(root,x);
+		Node[] li = _search_parent(root,x,null,new Node[2]);
 		Node parent = li[0];
 		Node t = li[1];
 		
@@ -212,15 +215,16 @@ public class BST {
 			delete(root,key);
 			t.setData(key);
 		} else if(r != null) {
-			_delete(parent,r,rt);
+			_delete(r,rt,parent);
 		} else if(l != null){
-			_delete(parent,l,rt);
+			_delete(l,rt,parent);
 		} else {
-			_delete(parent,null,rt);
+			_delete(null,rt,parent);
 		}
 	}
 	
-	private void _delete(Node parent, Node sub_t, int rt) {
+	//Root,x,parent
+	private void _delete(Node sub_t, int rt, Node parent) {
 		if(parent.getData() < rt) {
 			parent.setRight(sub_t);
 		} else {

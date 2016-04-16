@@ -16,19 +16,20 @@ public class MainClass {
 												new Node(9)
 															))));
 		
-		t.print_t(t.getRoot());
-		System.out.println(t._sorted(t.getRoot()).toString());
-		System.out.println(t.search(t.getRoot(), 4));
-		t.insert(t.getRoot(), 10);
-		t.insert(t.getRoot(), 0);
-		t.insert(t.getRoot(), 8);
-		t.print_t(t.getRoot());
-		System.out.println(t._sorted(t.getRoot()));
-	
+		t.print_t();
+		System.out.println(t._sorted().toString());
+		System.out.println(t.search(4));
+		t.insert(10);
+		t.insert(0);
+		t.insert(8);
+		t.insert(15);
+		t.print_t();
+		System.out.println(t._sorted());
+		t.delete(0);
+		t.delete(6);
+		t.delete(15);
+		t.print_t();
 		
-		t.delete(t.getRoot(), 0);
-		t.delete(t.getRoot(), 6);
-		t.print_t(t.getRoot());
 	}
 
 }
