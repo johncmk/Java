@@ -36,7 +36,6 @@ public class BST {
 	
 	private void _print_t(Node root, StringBuilder tab, int level) {
 		if(root == null) {
-			level = 0;
 			return;
 		}
 		
