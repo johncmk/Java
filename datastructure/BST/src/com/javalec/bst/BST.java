@@ -44,8 +44,9 @@ public class BST {
 		Node r = root.getRight();
 		
 		System.out.println(tab.substring(0, level) + "" + rt);
-		_print_t(l,tab.append('\t'),level+1);
-		_print_t(r,tab.append('\t'),level+1);
+		tab.append('\t');
+		_print_t(l,tab,level+1);
+		_print_t(r,tab,level+1);
 	}
 	
 	/**
@@ -211,7 +212,7 @@ public class BST {
 		
 		if(l != null && r != null) {
 			int key = _sorted(r).get(0);
-			delete(root,key);
+			delete(t,key);
 			t.setData(key);
 		} else if(r != null) {
 			_delete(r,rt,parent);
